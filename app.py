@@ -19,7 +19,7 @@ import os, pathlib, streamlit as st
 # st.metric("文件数", f)
 # st.metric("已用磁盘空间", f"{b/1024/1024:.2f} MB")
 
-root = "/git-core/"
+root = "/git-core"
 st.title("📁 目录树 + 文件夹大小")
 
 for dirpath, dirnames, filenames in os.walk(root, topdown=False):
