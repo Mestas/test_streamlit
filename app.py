@@ -1,16 +1,23 @@
-import os, streamlit as st
-def get_dir_size(path='.'):
-    total = 0
-    for root, dirs, files in os.walk(path):
-        for f in files:
-            fp = os.path.join(root, f)
+import os, pathlib, streamlit as st
+
+@st.cache_data(show_spinner=False)
+def walk_stats(root="/mnt/src"):
+    """返回 (文件夹数, 文件数, 总字节数)"""
+    dirs = files = size = 0
+    for p, dir_list, file_list in os.walk(root):
+        dirs += len(dir_list)
+        files += len(file_list)
+        for f in file_list:
             try:
-                total += os.path.getsize(fp)
+                size += os.path.getsize(os.path.join(p, f))
             except OSError:
                 pass
-    return total / 1024 / 1024   # MB
+    return dirs, files, size
 
-st.write("仓库目录已用空间：", get_dir_size('/mnt/src'), "MB")
+d, f, b = walk_stats()
+st.metric("文件夹数", d)
+st.metric("文件数", f)
+st.metric("已用磁盘空间", f"{b/1024/1024:.2f} MB")
 
 # root = "/app"
 # st.title("📁 目录树 + 文件夹大小")
