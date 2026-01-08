@@ -38,4 +38,4 @@ for dirpath, dirnames, filenames in os.walk(root, topdown=False):
     total = size + sub_size
     level = dirpath.replace(root, '').count(os.sep)
     indent = "  " * level
-    st.imwrite(f"{indent}📂 {os.path.basename(dirpath)}/  {total/1024/1024:,} MB")
+    st.write(f"{indent}📂 {os.path.basename(dirpath)}/  {total/1024/1024:,} MB")
